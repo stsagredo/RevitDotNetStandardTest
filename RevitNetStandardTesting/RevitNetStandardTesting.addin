@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<!-- For the IExternalApplication -->
+	<AddIn Type="Application">
+		<Name>App</Name>
+		<Assembly>RevitNetStandardTesting\RevitNetStandardTesting.dll</Assembly>
+		<FullClassName>RevitNetStandardTesting.Application</FullClassName>
+		<ClientId>1564bd98-b83a-42b8-9202-cf98ffa7dc85</ClientId>
+		<VendorId>com.yourvendornamehere</VendorId>
+		<VendorDescription>[insert your vendor description here]</VendorDescription>
+	</AddIn>
+
+	<!-- For any IExternalDBApplication -->
+	<AddIn Type="DBApplication">
+		<Name>DBApp</Name>
+		<Assembly>RevitNetStandardTesting\RevitNetStandardTesting.dll</Assembly>
+		<FullClassName>RevitNetStandardTesting.DBApplication</FullClassName>
+		<ClientId>25a7a517-b0e4-40db-9c43-62a5e7a92461</ClientId>
+		<VendorId>com.yourvendornamehere</VendorId>
+		<VendorDescription>[insert your vendor description here]</VendorDescription>
+	</AddIn>
+
+	<!-- Copy for any IExternalCommand -->
+	<AddIn Type="Command">
+		<Text>Command</Text>
+		<Description>whoa a command!!!!!!</Description>
+		<Assembly>RevitNetStandardTesting\RevitNetStandardTesting.dll</Assembly>
+		<FullClassName>RevitNetStandardTesting.Command</FullClassName>
+		<ClientId>57b0ace7-ad1f-40ea-8c0a-45788ce34d4e</ClientId>
+		<VendorId>com.yourvendornamehere</VendorId>
+		<VendorDescription>[insert your vendor description here]</VendorDescription>
+	</AddIn>
+</RevitAddIns>
