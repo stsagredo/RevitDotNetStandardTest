@@ -1,5 +1,7 @@
 ﻿using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
+using Newtonsoft.Json;
+using RevitNetStandardTesting.Controller;
 using RevitNetStandardTesting.Model.UnitModel;
 using RevitNetStandardTesting.Model.UnitModel.Contracts;
 using System;
@@ -12,10 +14,6 @@ namespace RevitNetStandardTesting
     /// </summary>
     public class DBApplication : IExternalDBApplication
     {
-        /// <summary>
-        /// Active Revit Document.
-        /// </summary>
-        private Document _doc;
 
         /// <summary>
         /// Entry point for the Revit <see cref="ControlledApplication"/>. This is the first method executed by Revit upon startup.
@@ -38,9 +36,7 @@ namespace RevitNetStandardTesting
         {
             try
             {
-                _doc = e.Document;
-
-                Debug.Print($"This DBApp says the document {e.Document.Title} has been opened! Printing the available Disciplines.");
+                Debug.Print($"This DBApp says the document {e.Document.Title} has been opened! There are {GetElements.GetCountOFAllElementsInDocument(e.Document)} elements inside. \nPrinting the available Disciplines.");
 
                 // Testing access to the RevitDBAPI
                 foreach (var discipline in UnitUtils.GetAllDisciplines())
@@ -59,11 +55,13 @@ namespace RevitNetStandardTesting
         /// </summary>
         /// <param name="spec"></param>
         /// <returns></returns>
-        internal ISpecData GetSpecData(ForgeTypeId spec)
+        internal ISpecData GetSpecData(Document doc, ForgeTypeId spec)
         {
             try
             {
-                return new SpecData(_doc, spec);
+               
+                return new SpecData(doc, spec);
+                
             }
             catch (Exception ex)
             {

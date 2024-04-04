@@ -18,7 +18,7 @@ namespace RevitNetStandardTesting.Model.UnitModel
             SuppressLeadingZeros = doc.GetUnits().GetFormatOptions(spec).SuppressLeadingZeros;
             SuppressTrailingZeros = doc.GetUnits().GetFormatOptions(spec).SuppressTrailingZeros;
             UsePlusPrefix = doc.GetUnits().GetFormatOptions(spec).UsePlusPrefix;
-            Accuracy = new AccuracyData(doc, spec, unit);
+            Accuracy = new AccuracyData(doc, unit, spec);
             ValidSymbols = GetValidSymbols(unit);
             Symbol = new SymbolData(unit, doc.GetUnits().GetFormatOptions(spec).GetSymbolTypeId());
         }

@@ -7,9 +7,11 @@ namespace RevitNetStandardTesting.Model.UnitModel
     {
         public SpecData(Document doc, ForgeTypeId spec)
         {
+            
             ForgeTypeId unit = doc.GetUnits().GetFormatOptions(spec).GetUnitTypeId();
+            Spec = spec;
             Discipline = LabelUtils.GetLabelForDiscipline(UnitUtils.GetDiscipline(spec));
-            SpecTypeId = spec.TypeId;
+            SpecTypeId = LabelUtils.GetLabelForSpec(spec);
             Unit = new UnitData(unit);
             DefaultOptions = new DefaultOptionsData(unit);
             SetOptions = new SetOptionsData(doc, spec, unit);
@@ -17,6 +19,7 @@ namespace RevitNetStandardTesting.Model.UnitModel
 
         public string Discipline { get; }
         public string SpecTypeId { get; }
+        public ForgeTypeId Spec { get; }
         public IUnitData Unit { get; }
         public IDefaultOptionsData DefaultOptions { get; }
         public ISetOptionsData SetOptions { get; }

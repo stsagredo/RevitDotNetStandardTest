@@ -4,6 +4,8 @@ using Autodesk.Revit.UI;
 using Newtonsoft.Json;
 using RevitNetStandardTesting.Model.UnitModel.Contracts;
 using System;
+using System.Diagnostics;
+using System.Linq;
 
 namespace RevitNetStandardTesting
 {
@@ -55,7 +57,7 @@ namespace RevitNetStandardTesting
                     DBApplication app = new DBApplication();
 
                     // Create an object with the spec data 
-                    ISpecData specData = app.GetSpecData(spec);
+                    ISpecData specData = app.GetSpecData(doc, spec);
 
                     // Serialise the data:
                     string serialisedSpec = JsonConvert.SerializeObject(specData, Formatting.Indented);
