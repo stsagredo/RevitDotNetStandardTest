@@ -1,6 +1,27 @@
-﻿using Autodesk.Revit.ApplicationServices;
+﻿/*
+ * Solution: RevitNetStandardTesting
+ * File: DBApplication.cs
+ * Date: 2024-04-04
+ * Version: 2024.2.1
+ * Revit version tested: Revit 2024.2
+ * 
+ * Written by Sebastian Torres Sagredo. 
+ * GH: https://github.com/stsagredo 
+ * 
+ * Under MIT Licence:
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), 
+ * to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+ * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
-using Newtonsoft.Json;
 using RevitNetStandardTesting.Controller;
 using RevitNetStandardTesting.Model.UnitModel;
 using RevitNetStandardTesting.Model.UnitModel.Contracts;
@@ -14,7 +35,6 @@ namespace RevitNetStandardTesting
     /// </summary>
     public class DBApplication : IExternalDBApplication
     {
-
         /// <summary>
         /// Entry point for the Revit <see cref="ControlledApplication"/>. This is the first method executed by Revit upon startup.
         /// </summary>
@@ -36,9 +56,11 @@ namespace RevitNetStandardTesting
         {
             try
             {
+                // Test if we can access the DB-level objects, like the Document's properties, and perform a FilteredElementCollector query.
+                // This tests one of the most common operations done in Revit: getting objects from the model.
                 Debug.Print($"This DBApp says the document {e.Document.Title} has been opened! There are {GetElements.GetCountOFAllElementsInDocument(e.Document)} elements inside. \nPrinting the available Disciplines.");
 
-                // Testing access to the RevitDBAPI
+                // Tests if we can access other elements of the API, like some static classes.
                 foreach (var discipline in UnitUtils.GetAllDisciplines())
                 {
                     Debug.Print(LabelUtils.GetLabelForDiscipline(discipline));
@@ -46,6 +68,7 @@ namespace RevitNetStandardTesting
             }
             catch (Exception ex)
             {
+                // Show on debug window what went wrong.
                 Debug.Print($"Oh no, an error! Exception:\n{ex.Message}\n{ex.StackTrace}.");
             }
         }
@@ -59,12 +82,13 @@ namespace RevitNetStandardTesting
         {
             try
             {
-               
+                // Get the spec data and return.
                 return new SpecData(doc, spec);
-                
+
             }
             catch (Exception ex)
             {
+                // Show on the debug window what went wrong.
                 Debug.Print($"Oh no, an error! Exception:\n{ex.Message}\n{ex.StackTrace}.");
                 return null;
             }
@@ -79,10 +103,12 @@ namespace RevitNetStandardTesting
         {
             try
             {
+                // Test if we can do things when Revit shuts down.
                 Debug.Print("This DBApp is shutting down.");
             }
             catch (Exception ex)
             {
+                // Show on the debug window what went wrong.
                 Debug.Print($"Oh no, an error! Exception:\n{ex.Message}\n{ex.StackTrace}.");
             }
             return ExternalDBApplicationResult.Succeeded;
