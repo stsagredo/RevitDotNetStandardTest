@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,5 +8,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2024.0.0" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="@echo off&#xD;&#xA;echo Removing old directory at &quot;$(AppData)\Autodesk\REVIT\Addins\2024\$(ProjectName)&quot;&#xD;&#xA;if exist &quot;$(AppData)\Autodesk\REVIT\Addins\2024\$(ProjectName)&quot; rmdir /s /q &quot;$(AppData)\Autodesk\REVIT\Addins\2024\$(ProjectName)&quot; &#xD;&#xA;    &#xD;&#xA;echo Creating new directory for $(ProjectName)&#xD;&#xA;mkdir &quot;$(AppData)\Autodesk\REVIT\Addins\2024\$(ProjectName)&quot;&#xD;&#xA;echo Copying manifest at &quot;$(AppData)\Autodesk\REVIT\Addins\2024\$(ProjectDir)*.addin&quot;&#xD;&#xA;xcopy &quot;$(ProjectDir)*.addin&quot; &quot;$(AppData)\Autodesk\REVIT\Addins\2024\&quot; /Y&#xD;&#xA;echo Copying project DLLs&#xD;&#xA;xcopy &quot;$(ProjectDir)$(OutputPath)*.dll&quot; &quot;$(AppData)\Autodesk\REVIT\Addins\2024\$(ProjectName)\&quot; /Y" />
+  </Target>
 
 </Project>

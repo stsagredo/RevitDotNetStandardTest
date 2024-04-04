@@ -1,7 +1,7 @@
-﻿using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using RevitNetStandardTesting.Controller;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RevitNetStandardTesting
 {
@@ -15,16 +15,55 @@ namespace RevitNetStandardTesting
         /// </summary>
         /// <param name="application"></param>
         /// <returns></returns>
+
+        public Document ActiveDocument { get; set; }
+
         public Result OnStartup(UIControlledApplication application)
         {
-            // Small test to see if we can access the UIApp object:
-            string revitVersion = $"{application.ControlledApplication.VersionName} {application.ControlledApplication.VersionNumber}"; 
-            Autodesk.Revit.UI.TaskDialog t = new TaskDialog("This is running in .NET Standard 2.0!")
+            try
             {
-                MainContent = $"This application just started on {revitVersion} and is working!"
-            };
-            t.Show();
-            return Result.Succeeded;
+                // Small test to see if we can access the UIApp object:
+                string revitVersion = $"{application.ControlledApplication.VersionName} {application.ControlledApplication.SubVersionNumber}";
+
+                Autodesk.Revit.UI.TaskDialog t = new TaskDialog("This is running in .NET Standard 2.0!")
+                {
+                    MainContent = $"This application just started on {revitVersion} and is working!"
+                };
+                t.Show();
+
+                // Always have the active document accesible through the Application.
+                application.ControlledApplication.DocumentOpened += ControlledApplication_DocumentOpened;
+
+                // Add the Length Check Button
+                AddLengthCheckButton(application);
+
+                return Result.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                Autodesk.Revit.UI.TaskDialog t = new TaskDialog("This is running in .NET Standard 2.0! But it failed :(")
+                {
+                    MainContent = $"Oh no, an error! Exception:\n{ex.Message}\n{ex.StackTrace}."
+                };
+                t.Show();
+                return Result.Failed;
+            }
+        }
+
+        private void AddLengthCheckButton(UIControlledApplication application)
+        {
+            // Load command onto the Ribbon using our classes:
+            GetUIElements.AddNewTab(application, ".NET Standard Test");
+            RibbonPanel commonUnits = GetUIElements.AddNewPanel(application, ".NET Standard Test", "Common Units");
+
+            // This button references our Command, where the check will be invoked.
+            PushButtonData getLengthData = GetUIElements.CreateNewButton("GetLength", "Get Set Length", typeof(Command));
+            GetUIElements.AddButton(commonUnits, getLengthData);
+        }
+
+        private void ControlledApplication_DocumentOpened(object sender, Autodesk.Revit.DB.Events.DocumentOpenedEventArgs e)
+        {
+            this.ActiveDocument = e.Document;
         }
 
         /// <summary>
@@ -34,14 +73,25 @@ namespace RevitNetStandardTesting
         /// <returns></returns>
         public Result OnShutdown(UIControlledApplication application)
         {
-            Autodesk.Revit.UI.TaskDialog t = new TaskDialog("This is running in .NET Standard 2.0!")
+            try
             {
-                MainContent = $"This application is shutting down."
-            };
-            t.Show();
-            return Result.Succeeded;
+                Autodesk.Revit.UI.TaskDialog t = new TaskDialog("This is running in .NET Standard 2.0!")
+                {
+                    MainContent = $"This application is shutting down."
+                };
+                t.Show();
+                return Result.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                Autodesk.Revit.UI.TaskDialog t = new TaskDialog("This is running in .NET Standard 2.0! But it failed :(")
+                {
+                    MainContent = $"Oh no, an error! Exception:\n{ex.Message}\n{ex.StackTrace}."
+                };
+                t.Show();
+                return Result.Failed;
+            }
+
         }
-
-
     }
 }

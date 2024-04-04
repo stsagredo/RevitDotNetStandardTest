@@ -1,9 +1,9 @@
 ﻿using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
+using RevitNetStandardTesting.Model.UnitModel;
+using RevitNetStandardTesting.Model.UnitModel.Contracts;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace RevitNetStandardTesting
 {
@@ -12,6 +12,11 @@ namespace RevitNetStandardTesting
     /// </summary>
     public class DBApplication : IExternalDBApplication
     {
+        /// <summary>
+        /// Active Revit Document.
+        /// </summary>
+        private Document _doc;
+
         /// <summary>
         /// Entry point for the Revit <see cref="ControlledApplication"/>. This is the first method executed by Revit upon startup.
         /// </summary>
@@ -31,7 +36,40 @@ namespace RevitNetStandardTesting
         /// <param name="e"></param>
         private void Application_DocumentOpened(object sender, Autodesk.Revit.DB.Events.DocumentOpenedEventArgs e)
         {
-            Debug.Print($"This DBApp says the document {e.Document.Title} has been opened!");
+            try
+            {
+                _doc = e.Document;
+
+                Debug.Print($"This DBApp says the document {e.Document.Title} has been opened! Printing the available Disciplines.");
+
+                // Testing access to the RevitDBAPI
+                foreach (var discipline in UnitUtils.GetAllDisciplines())
+                {
+                    Debug.Print(LabelUtils.GetLabelForDiscipline(discipline));
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Print($"Oh no, an error! Exception:\n{ex.Message}\n{ex.StackTrace}.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the SpecData from the Revit Database. Callable from the outside.
+        /// </summary>
+        /// <param name="spec"></param>
+        /// <returns></returns>
+        internal ISpecData GetSpecData(ForgeTypeId spec)
+        {
+            try
+            {
+                return new SpecData(_doc, spec);
+            }
+            catch (Exception ex)
+            {
+                Debug.Print($"Oh no, an error! Exception:\n{ex.Message}\n{ex.StackTrace}.");
+                return null;
+            }
         }
 
         /// <summary>
@@ -41,10 +79,15 @@ namespace RevitNetStandardTesting
         /// <returns></returns>
         public ExternalDBApplicationResult OnShutdown(ControlledApplication application)
         {
-            Debug.Print("This DBApp is shutting down.");
+            try
+            {
+                Debug.Print("This DBApp is shutting down.");
+            }
+            catch (Exception ex)
+            {
+                Debug.Print($"Oh no, an error! Exception:\n{ex.Message}\n{ex.StackTrace}.");
+            }
             return ExternalDBApplicationResult.Succeeded;
         }
-
-
     }
 }

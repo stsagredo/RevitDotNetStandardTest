@@ -5,7 +5,7 @@
 		<Name>App</Name>
 		<Assembly>RevitNetStandardTesting\RevitNetStandardTesting.dll</Assembly>
 		<FullClassName>RevitNetStandardTesting.Application</FullClassName>
-		<ClientId>1564bd98-b83a-42b8-9202-cf98ffa7dc85</ClientId>
+		<ClientId>D7F41E03-D694-42B3-BEED-7941B7637CA2</ClientId>
 		<VendorId>com.yourvendornamehere</VendorId>
 		<VendorDescription>[insert your vendor description here]</VendorDescription>
 	</AddIn>
@@ -15,7 +15,7 @@
 		<Name>DBApp</Name>
 		<Assembly>RevitNetStandardTesting\RevitNetStandardTesting.dll</Assembly>
 		<FullClassName>RevitNetStandardTesting.DBApplication</FullClassName>
-		<ClientId>25a7a517-b0e4-40db-9c43-62a5e7a92461</ClientId>
+		<ClientId>C3D6AA39-4016-4EC1-8216-C6EF131EEEBE</ClientId>
 		<VendorId>com.yourvendornamehere</VendorId>
 		<VendorDescription>[insert your vendor description here]</VendorDescription>
 	</AddIn>
@@ -26,7 +26,7 @@
 		<Description>whoa a command!!!!!!</Description>
 		<Assembly>RevitNetStandardTesting\RevitNetStandardTesting.dll</Assembly>
 		<FullClassName>RevitNetStandardTesting.Command</FullClassName>
-		<ClientId>57b0ace7-ad1f-40ea-8c0a-45788ce34d4e</ClientId>
+		<ClientId>7B6D40CA-C290-4FEE-8834-0CDF5DAB04B6</ClientId>
 		<VendorId>com.yourvendornamehere</VendorId>
 		<VendorDescription>[insert your vendor description here]</VendorDescription>
 	</AddIn>
